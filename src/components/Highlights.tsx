@@ -23,8 +23,29 @@ export default function Highlights() {
   ];
 
   return (
-    <section id="highlights" className="py-[96px] bg-brand-bg-deep">
-      <div className="max-w-[1200px] mx-auto px-7">
+    <section id="highlights" className="py-[105px] bg-gradient-to-b from-[#f6eee3]/75 via-[#faf5ec]/68 to-[#f4ede1]/75 backdrop-blur-[2px] relative overflow-hidden">
+      {/* Top radiant copper line separating from dark Concept section */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#b3541e]/60 to-transparent shadow-[0_0_12px_#b3541e] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#b3541e]/30 to-transparent pointer-events-none" />
+
+      {/* Atmospheric radial ambient light diffusions */}
+      <div className="absolute top-1/4 -right-10 w-[550px] h-[550px] bg-brand-accent/[0.06] rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-10 -left-10 w-[500px] h-[500px] bg-[#d98236]/[0.05] rounded-full blur-[150px] pointer-events-none" />
+
+      {/* Roastery geometry watermark pattern */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-multiply overflow-hidden">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="highlightsGrid" width="64" height="64" patternUnits="userSpaceOnUse">
+              <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#7e4620" strokeWidth="0.8" />
+              <circle cx="32" cy="32" r="1.2" fill="#7e4620" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#highlightsGrid)" />
+        </svg>
+      </div>
+
+      <div className="max-w-[1200px] mx-auto px-7 relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-10%" }} transition={{ duration: 0.7 }}
           className="mb-[52px]"

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, type MouseEvent as ReactMouseEvent } from 'react';
 import { motion } from 'motion/react';
 
 const galleryImages = [
@@ -53,7 +53,8 @@ export default function Gallery() {
       let best = -1;
       let bestDist = Infinity;
       
-      Array.from(strip.children).forEach((child, index) => {
+      Array.from(strip.children).forEach((childNode, index) => {
+        const child = childNode as HTMLElement;
         const r = child.getBoundingClientRect();
         const cMid = r.left + r.width / 2;
         const d = Math.abs(cMid - mid);
@@ -112,7 +113,7 @@ export default function Gallery() {
     }
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handleMouseDown = (e: ReactMouseEvent) => {
     setIsDragging(true);
     dragDistance.current = 0;
     if (!stripRef.current) return;
@@ -128,7 +129,7 @@ export default function Gallery() {
     setIsDragging(false);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = (e: ReactMouseEvent) => {
     if (!isDragging || !stripRef.current) return;
     e.preventDefault();
     const x = e.pageX - stripRef.current.offsetLeft;
@@ -140,13 +141,32 @@ export default function Gallery() {
   return (
     <section 
       id="gallery" 
-      className="py-[96px] gallery-strip-container overflow-hidden"
+      className="py-[105px] gallery-strip-container overflow-hidden bg-gradient-to-b from-[#f5eee3]/75 via-[#ecdfcc]/70 to-[#18130e]/92 backdrop-blur-[2px] relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={() => setIsHovered(true)}
       onTouchEnd={() => setIsHovered(false)}
     >
-      <div className="max-w-[1200px] mx-auto px-7">
+      {/* Top subtle radiant copper accent line */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#b3541e]/35 to-transparent pointer-events-none" />
+
+      {/* Atmospheric radial ambient light diffusions */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-[#d98236]/[0.08] rounded-full blur-[170px] pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[500px] h-[400px] bg-[#b3541e]/[0.09] rounded-full blur-[160px] pointer-events-none" />
+
+      {/* Roastery atelier watermark pattern */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-multiply overflow-hidden">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="galleryGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <circle cx="30" cy="30" r="1.2" fill="#7e4620" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#galleryGrid)" />
+        </svg>
+      </div>
+
+      <div className="max-w-[1200px] mx-auto px-7 relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-10%" }} transition={{ duration: 0.7 }}
           className="mb-[52px]"
